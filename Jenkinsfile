@@ -52,7 +52,9 @@ node {
            bat(/"${mvnHome}\bin\mvn" clean package/)
         }
       }
-
+		stage('Deploy to Tomcat') {
+		build job:'binarydeployment'
+	}
     }
 
       if(env.BRANCH_NAME == 'develop'){
@@ -106,9 +108,7 @@ node {
            sh 'curl -O ' + retrieveArtifact
            sh 'curl -u jenkins:jenkins -T *.war "http://localhost:7080/manager/text/deploy?path=/devops&update=true"'
          }
-		 stage('Deploy to Tomcat') {
-	build job:'binarydeployment'
-	}
+		 
 
       }
   } catch (exception) {
