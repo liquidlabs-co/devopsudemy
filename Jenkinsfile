@@ -43,6 +43,9 @@ node {
           bat(/"${mvnHome}\bin\mvn" sonar:sonar/)
        }
     }
+	stage('Deploy to Tomcat') {
+		build job:'binarydeployment'
+	}
 
     if(env.BRANCH_NAME == 'master'){
       stage('Validate Build Post Prod Release') {
