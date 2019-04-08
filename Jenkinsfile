@@ -36,14 +36,14 @@ node {
       }
     }
 
-    stage('Sonar') {
+    stage('Quality Gates') {
        if (isUnix()) {
           sh "'${mvnHome}/bin/mvn' sonar:sonar"
        } else {
           bat(/"${mvnHome}\bin\mvn" sonar:sonar/)
        }
     }
-	stage('Deploy to Tomcat') {
+	stage('Deploy to Stage') {
 		build job:'binarydeployment'
 	}
 
