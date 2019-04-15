@@ -52,7 +52,7 @@ node {
         }
       }
 
-        stage('Snapshot Build And Upload Artifacts') {
+        stage('Snapshot Build to Artifactory') {
           if (isUnix()) {
              sh "'${mvnHome}/bin/mvn' clean deploy"
           } else {
@@ -60,7 +60,7 @@ node {
           }
         }
 
-        stage('Deploy') {
+        stage('DeployToTomcat') {
            sh 'curl -u jenkins:jenkins -T target/**.war "http://localhost:8080/manager/text/deploy?path=/devops&update=true"'
         }
 
