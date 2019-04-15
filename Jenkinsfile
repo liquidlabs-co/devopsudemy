@@ -52,8 +52,6 @@ node {
         }
       }
 
-
-      if(env.BRANCH_NAME == 'master'){
         stage('Snapshot Build And Upload Artifacts') {
           if (isUnix()) {
              sh "'${mvnHome}/bin/mvn' clean deploy"
@@ -70,7 +68,6 @@ node {
            sh "curl --retry-delay 10 --retry 5 http://localhost:8080/devops"
         }
 
-      }
 
       if(env.BRANCH_NAME ==~ /release.*/){
         pom = readMavenPom file: 'pom.xml'
