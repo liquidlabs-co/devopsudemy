@@ -44,7 +44,7 @@ node {
        }
     }
 
-    if(env.BRANCH_NAME == 'master'){
+
       stage('Validate Build Post Prod Release') {
         if (isUnix()) {
            sh "'${mvnHome}/bin/mvn' clean package"
@@ -52,9 +52,8 @@ node {
            bat(/"${mvnHome}\bin\mvn" clean package/)
         }
       }
-    }
 
-      if(env.BRANCH_NAME == 'master'){
+
         stage('Snapshot Build And Upload Artifacts') {
           if (isUnix()) {
              sh "'${mvnHome}/bin/mvn' clean deploy"
@@ -70,8 +69,6 @@ node {
         stage("Smoke Test"){
            sh "curl --retry-delay 10 --retry 5 http://localhost:8080/devops"
         }
-
-      }
 
       if(env.BRANCH_NAME ==~ /release.*/){
         pom = readMavenPom file: 'pom.xml'
@@ -106,8 +103,6 @@ node {
            sh 'curl -u jenkins:jenkins -T *.war "http://localhost:7080/manager/text/deploy?path=/devops&update=true"'
          }
 
-
-      }
   } catch (exception) {
       committerEmail = sh (script: 'git --no-pager show -s --format=\'%ae\'', returnStdout: true).trim()
       emailext(body: '${DEFAULT_CONTENT}', mimeType: 'text/html', replyTo: '$DEFAULT_REPLYTO', subject: '${DEFAULT_SUBJECT}', to: committerEmail)
