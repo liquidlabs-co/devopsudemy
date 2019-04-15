@@ -44,7 +44,6 @@ node {
        }
     }
 
-    if(env.BRANCH_NAME == 'master'){
       stage('Validate Build Post Prod Release') {
         if (isUnix()) {
            sh "'${mvnHome}/bin/mvn' clean package"
@@ -52,7 +51,7 @@ node {
            bat(/"${mvnHome}\bin\mvn" clean package/)
         }
       }
-    }
+
 
       if(env.BRANCH_NAME == 'master'){
         stage('Snapshot Build And Upload Artifacts') {
